@@ -1,0 +1,101 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Perfumito</title>
+<meta name="theme-color" content="#0e0c0a">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Perfumito">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" href="icon-192.png">
+<style>
+:root{--bg:#0e0c0a;--card:#1a1612;--line:#2e271f;--gold:#c9a25a;--tx:#f3ece2;--mut:#a89c8c}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 -apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+header{padding:calc(14px + env(safe-area-inset-top)) 18px 8px;position:sticky;top:0;background:linear-gradient(var(--bg) 80%,transparent);z-index:5}
+h1{font:600 26px/1.1 "New York",Georgia,serif;margin:0;letter-spacing:.3px}h1 span{color:var(--gold)}
+.sub{color:var(--mut);font-size:13px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 0 4px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--card);color:var(--tx);border-radius:20px;padding:6px 13px;font-size:13px}
+.chip.on{background:var(--gold);color:#140f08;border-color:var(--gold);font-weight:600}
+input.s{width:100%;margin-top:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--tx);font-size:16px}
+main{padding:4px 14px}
+.shelf{display:grid;grid-template-columns:repeat(3,1fr);gap:0 10px;padding:14px 8px 0;margin:14px 0;border-radius:14px;background:linear-gradient(#17130f,#100d0a)}
+.bot{display:flex;flex-direction:column;align-items:center;text-align:center;padding:10px 2px 12px;position:relative;border-bottom:9px solid #4a3622;box-shadow:0 7px 10px -6px #000}
+.bot img{width:100%;max-width:96px;aspect-ratio:3/4;object-fit:contain;border-radius:10px;background:#f6f2ec;padding:4px;transition:transform .2s}
+.bot:active img{transform:scale(.94)}
+.bot b{font-size:12px;margin-top:6px;line-height:1.2}.bot i{font-style:normal;color:var(--mut);font-size:11px}
+.dot{position:absolute;top:12px;right:8px;width:9px;height:9px;border-radius:5px}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:rgba(20,17,14,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:10}
+nav button{flex:1;background:none;border:0;color:var(--mut);padding:10px 0 8px;font-size:11px}nav button div{font-size:20px}nav button.on{color:var(--gold)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0}
+.card h3{margin:0 0 6px;font:600 17px Georgia,serif;color:var(--gold)}
+.row{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}
+.row img{width:40px;height:52px;object-fit:contain;background:#f6f2ec;border-radius:7px}
+.n{width:26px;text-align:center;font-weight:700;color:var(--gold)}.grow{flex:1;min-width:0}.mut{color:var(--mut);font-size:12.5px}
+.sc{font-weight:700;font-size:16px}
+.bar{height:5px;background:#2a231c;border-radius:3px;margin-top:4px}.bar>div{height:5px;border-radius:3px;background:var(--gold)}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;display:none}.sheet.on{display:block}
+.pane{position:absolute;left:0;right:0;bottom:0;max-height:92vh;overflow-y:auto;background:#15120f;border-radius:22px 22px 0 0;padding:10px 18px calc(24px + env(safe-area-inset-bottom));animation:up .25s ease}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.grab{width:40px;height:5px;border-radius:3px;background:#444;margin:4px auto 12px}
+.hero{display:flex;gap:14px}.hero img{width:110px;aspect-ratio:3/4;object-fit:contain;background:#f6f2ec;border-radius:12px;padding:4px}
+.kv{margin:8px 0;font-size:14px}.kv b{color:var(--gold);font-weight:600}
+.warn{color:#e8a65a;font-size:13px}
+select{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:9px;font-size:16px;width:100%;margin:4px 0 10px}
+.btn{width:100%;padding:13px;border-radius:12px;border:0;background:var(--gold);color:#140f08;font-weight:700;font-size:16px}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:#2a231c;color:var(--mut);margin:2px 4px 0 0}
+a{color:var(--gold)}
+</style></head><body>
+<header><h1>Perfu<span>mito</span></h1><div class="sub" id="sub"></div><div id="hx"></div></header>
+<main id="m"></main>
+<nav id="nav"></nav>
+<div class="sheet" id="sh" onclick="if(event.target===this)closeS()"><div class="pane" id="pn"></div></div>
+<script src="data.js"></script>
+<script>
+const {IM,IM2,X,D,RK}=window.DATA;const img=n=>IM2[n]||IM[n]||'icon-192.png';
+const COL={Fresco:'#6fb7c9',Doce:'#c98a5a',Tropical:'#e3c04f',Amadeirado:'#8d6b4a'};
+const rank={};RK.rows.forEach(r=>rank[r[1]]=r);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let tab='col',f={est:'Todas',oc:'Todas',g:'Todos',q:''};
+const TABS=[['col','🧴','Prateleira'],['hoje','✨','Usar hoje'],['rank','🏆','Ranking'],['ana','📊','Análise']];
+function nav(){document.getElementById('nav').innerHTML=TABS.map(t=>`<button class="${tab==t[0]?'on':''}" onclick="go('${t[0]}')"><div>${t[1]}</div>${t[2]}</button>`).join('')}
+function go(t){tab=t;render();scrollTo(0,0)}
+function chips(k,opts){return `<div class="chips">${opts.map(o=>`<button class="chip ${f[k]==o?'on':''}" onclick="f.${k}='${o}';render()">${o}</button>`).join('')}</div>`}
+function list(){const q=f.q.toLowerCase();return D.filter(p=>(f.est=='Todas'||p.s.includes(f.est))&&(f.oc=='Todas'||p.o.includes(f.oc))&&(f.g=='Todos'||p.g==f.g)&&(!q||(p.n+' '+p.b+' '+p.t+' '+p.m+' '+p.ba+' '+p.fam).toLowerCase().includes(q)))}
+function render(){nav();const m=document.getElementById('m'),hx=document.getElementById('hx');
+document.getElementById('sub').textContent={col:'46 frascos na sua prateleira',hoje:'Escolha o clima e a ocasião',rank:'Fragrantica + Parfumo + Reddit + prêmios',ana:'O perfil da sua coleção'}[tab];
+if(tab=='col'){hx.innerHTML=`<input class="s" placeholder="Buscar nome ou nota (ex.: baunilha)" value="${esc(f.q)}" oninput="f.q=this.value;draw()">`+chips('est',['Todas','Calor','Meia-estação','Frio'])+chips('g',['Todos','Fresco','Doce','Tropical','Amadeirado'])+chips('oc',['Todas','Dia a dia','Trabalho','Noite','Encontro','Festa','Praia','Academia','Ocasião especial']);draw();return}
+hx.innerHTML='';
+if(tab=='hoje')m.innerHTML=`<div class="card"><h3>Qual usar hoje?</h3>
+<label class="mut">Clima</label><select id="c"><option>Calor forte (30 °C+)</option><option>Calor</option><option selected>Ameno</option><option>Frio</option></select>
+<label class="mut">Ocasião</label><select id="o">${['Dia a dia','Trabalho','Encontro','Noite','Festa','Praia','Academia','Ocasião especial'].map(x=>`<option>${x}</option>`).join('')}</select>
+<label class="mut">Quero algo</label><select id="v"><option>Tanto faz</option><option>Fresco</option><option>Doce</option><option>Tropical</option><option>Amadeirado</option></select>
+<button class="btn" onclick="pick()">Sugerir</button></div><div id="res"></div>`;
+if(tab=='rank'){const tb=(t,rows,cols)=>`<div class="card"><h3>${t}</h3>${rows.map(r=>`<div class="row" onclick="openS('${esc(r[1]).replace(/'/g,"\\'")}')"><div class="n">${r[0]}</div><img src="${img(r[1])}"><div class="grow"><b>${esc(r[1])}</b><div class="mut">${esc(r[2])}</div></div></div>`).join('')}</div>`;
+m.innerHTML=`<div class="card mut">Nota 0–10 = 45% Fragrantica + 35% Parfumo (média bayesiana: poucos votos puxam pra média) + até +0,4 Reddit + até +0,4 prêmios/listas. Coletado em 31/10/2026. Toque num perfume pra ver detalhes.</div>`+
+`<div class="card"><h3>Ranking geral</h3>${RK.rows.map(r=>`<div class="row" onclick="openS('${esc(r[1]).replace(/'/g,"\\'")}')"><div class="n">${r[0]}</div><img src="${img(r[1])}"><div class="grow"><b>${esc(r[1])}</b><div class="mut">Fragrantica ${esc(r[3])} · Parfumo ${esc(r[4])}</div><div class="mut">Reddit: ${esc(r[5])}${r[6]!='–'?' · 🏅 '+esc(r[6]):''}</div>${r[7]!='ok'?`<div class="warn">${esc(r[7])}</div>`:''}${r[2]!='–'?`<div class="bar"><div style="width:${parseFloat(r[2].replace(',','.'))*10}%"></div></div>`:''}</div><div class="sc">${r[2]}</div></div>`).join('')}</div>`+
+tb('💰 Melhor custo-benefício',RK.val)+tb('💪 Melhor desempenho',RK.perf)+tb('😍 Mais elogios',RK.comp)+tb('☀️ Calor brasileiro',RK.heat)+
+`<div class="card"><h3>O que o Reddit diz</h3>${RK.red.map(r=>`<div class="row"><div class="grow"><b>${esc(r[0])}</b><div class="mut">${esc(r[1])}</div>${r[2].split(' ').map((u,i)=>`<a class="tag" href="${u}" target="_blank" rel="noopener">thread ${i+1}</a>`).join('')}</div></div>`).join('')}</div>`}
+if(tab=='ana'){const c={};D.forEach(p=>c[p.g]=(c[p.g]||0)+1);const mx=Math.max(...Object.values(c));
+m.innerHTML=`<div class="card"><h3>Estilos</h3>${Object.entries(c).map(([k,v])=>`<div class="row"><div class="grow"><b>${k}</b><div class="bar"><div style="width:${v/mx*100}%;background:${COL[k]}"></div></div></div><div class="sc">${v}</div></div>`).join('')}</div>
+<div class="card"><h3>Grupos muito parecidos</h3>${[['Clones do YSL Y','Odyssey Mega, Connoisseur Man','O Mega é o titular'],['Frescos Odyssey','Limoni, Aqua, White Edition','Limoni no calor forte, Aqua no dia a dia'],['Azul com ambroxan','Sauvage, Dylan Blue, Najma, Umbra, Hero, Aqua','Sauvage pra impacto'],['Baunilha de inverno','SWY Absolutely, Asad Bourbon, Liquid Brun, Khamrah Qahwa','Rodízio: rum, cacau, canela, café'],['Lavanda doce “modo fera”','Ultra Male, Rayhaan Lion, Rugir','Lion ≈ Ultra Male'],['Tropical','9PM Rebel, Vulcan Feu, Mango Bliss, Beach Party','Rebel é o mais versátil'],['Cítrico esportivo','Limoni, Reversed, Maximum, Energise, Open Road','Bem coberto']].map(r=>`<div class="row"><div class="grow"><b>${r[0]}</b><div class="mut">${r[1]}</div><div>${r[2]}</div></div></div>`).join('')}</div>
+<div class="card"><h3>O que falta</h3>${["Íris elegante: Dior Homme ou Prada L'Homme","Vetiver seco: Guerlain Vetiver ou Encre Noire","Mineral cítrico: Terre d'Hermès","Couro: Ombré Leather","Chá verde pro calor extremo: Bvlgari Thé Vert"].map(x=>`<div class="row">${x}</div>`).join('')}</div>`}}
+function draw(){const L=list();document.getElementById('m').innerHTML=`<div class="mut" style="padding:6px 4px">${L.length} perfumes</div><div class="shelf">${L.map(p=>`<div class="bot" onclick="openS('${p.n.replace(/'/g,"\\'")}')"><span class="dot" style="background:${COL[p.g]}"></span><img loading="lazy" src="${img(p.n)}" alt=""><b>${esc(p.n)}</b><i>${esc(p.b)}</i></div>`).join('')}</div>`}
+function openS(n){const p=D.find(d=>d.n==n);if(!p)return;const x=X[n]||{};const r=rank[n];
+const kv=(k,v)=>v?`<div class="kv"><b>${k}:</b> ${esc(v)}</div>`:'';
+document.getElementById('pn').innerHTML=`<div class="grab"></div><div class="hero"><img src="${img(n)}"><div><div class="mut">${esc(p.b)}</div><div style="font:600 21px Georgia,serif">${esc(n)}</div><div class="mut">${esc(p.fam)}</div><div>${p.s.map(s=>`<span class="tag">${s}</span>`).join('')}${p.o.map(s=>`<span class="tag">${s}</span>`).join('')}</div>${r?`<div style="margin-top:6px">🏆 <b>#${r[0]}</b> · nota ${r[2]}</div>`:''}</div></div>
+${kv('Cheiro, em palavras simples',x.cs)}${kv('Saída',p.t)}${kv('Coração',p.m)}${kv('Fundo',p.ba)}${kv('Inspiração',p.insp)}${kv('Impressão',p.imp)}
+${kv('Ficha',[x.c,x.a,x.pf&&('perfumista: '+x.pf)].filter(Boolean).join(' · '))}${kv('Clima ideal',x.clm)}${kv('Horário',x.hr)}${kv('Ocasiões',x.oc)}${kv('Idade/vibe',x.id)}${kv('Versatilidade',x.v!=null?x.v+'/10':'')}
+${kv('Fixação',x.fx)}${kv('Projeção',x.pj)}${kv('Borrifadas',x.sp)}${kv('Clone/inspiração',x.cn)}${kv('Layering',x.ly)}${kv('Elogios',x.el)}${kv('Preço aprox.',x.pr)}${kv('Quando NÃO usar',x.no)}${kv('Dica',p.tip)}
+${r?kv('Fontes do ranking',`Fragrantica ${r[3]} · Parfumo ${r[4]} · Reddit ${r[5]} · Prêmios ${r[6]}`):''}${p.u?`<div class="warn">Atenção: ${esc(p.u)}</div>`:''}
+<button class="btn" style="margin-top:14px" onclick="closeS()">Fechar</button>`;
+document.getElementById('sh').classList.add('on');document.getElementById('pn').scrollTop=0}
+function closeS(){document.getElementById('sh').classList.remove('on')}
+function pick(){const c=document.getElementById('c').value,o=document.getElementById('o').value,v=document.getElementById('v').value;
+const S=x=>{const r=rank[x.n];return r&&r[2]!='–'?parseFloat(r[2].replace(',','.')):6.5};
+const hot=c.startsWith('Calor'),xh=c.startsWith('Calor forte'),cold=c=='Frio';
+const sc=D.map(p=>{let s=S(p);if(hot&&p.s.includes('Calor'))s+=2;if(hot&&!p.s.includes('Calor'))s-=xh?4:2;if(xh&&p.g=='Fresco')s+=1.5;if(xh&&p.g=='Doce')s-=2;if(cold&&p.s.includes('Frio'))s+=2;if(cold&&p.g=='Fresco'&&!p.s.includes('Frio'))s-=1.5;if(c=='Ameno'&&p.s.includes('Meia-estação'))s+=1.5;
+if(p.o.includes(o))s+=2.5;else s-=1;if(v!='Tanto faz')s+=p.g==v?2:-2;s+=Math.random()*1.2;return [s,p]}).sort((a,b)=>b[0]-a[0]).slice(0,3);
+document.getElementById('res').innerHTML=sc.map(([s,p],i)=>`<div class="card" onclick="openS('${p.n.replace(/'/g,"\\'")}')"><div class="row"><div class="n">${['🥇','🥈','🥉'][i]}</div><img src="${img(p.n)}"><div class="grow"><b>${esc(p.n)}</b><div class="mut">${esc((X[p.n]||{}).sp||p.tip)}</div></div></div></div>`).join('')+`<button class="btn" style="background:#2a231c;color:var(--tx)" onclick="pick()">Sortear de novo</button>`}
+render();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+</script></body></html>
